@@ -1,0 +1,2694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Dashboard - NEVADA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #F2EBE3;
+            --bg-card: #FAF6F1;
+            --bg-input: #EDE6DD;
+            --brown-dark: #5C3D2E;
+            --brown-medium: #8B5E3C;
+            --brown-light: #A67B5B;
+            --brown-gradient-start: #B8834F;
+            --brown-gradient-end: #8B5E3C;
+            --text-primary: #3D2B1F;
+            --text-secondary: #7A6B5D;
+            --text-muted: #9E8F80;
+            --green-positive: #2E7D32;
+            --red-negative: #C62828;
+            --blue-status: #1565C0;
+            --shadow: 0 2px 12px rgba(92, 61, 46, 0.08);
+            --shadow-lg: 0 8px 32px rgba(92, 61, 46, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .app-container {
+            max-width: 430px;
+            margin: 0 auto;
+            min-height: 100vh;
+            position: relative;
+            background: var(--bg-primary);
+            overflow: hidden;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            background: var(--bg-primary);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--brown-medium), var(--brown-dark));
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-icon::before {
+            content: '';
+            width: 14px;
+            height: 14px;
+            background: white;
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg);
+            opacity: 0.9;
+        }
+
+        .logo-text {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--brown-dark);
+            letter-spacing: -0.3px;
+        }
+
+        .profile-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1.5px solid var(--text-muted);
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .profile-btn:hover {
+            background: rgba(139, 94, 60, 0.1);
+        }
+
+        .profile-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--text-secondary);
+        }
+
+        /* Welcome Section */
+        .welcome-section {
+            padding: 0 20px 16px;
+        }
+
+        .welcome-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .welcome-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 2px;
+        }
+
+        .welcome-name {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+        }
+
+        .date-display {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 8px;
+        }
+
+        .date-display svg {
+            width: 16px;
+            height: 16px;
+            stroke: var(--text-secondary);
+        }
+
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 4px;
+            margin: 0 20px 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px 16px;
+            border: none;
+            background: transparent;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--brown-gradient-start), var(--brown-gradient-end));
+            color: white;
+            box-shadow: 0 2px 8px rgba(139, 94, 60, 0.3);
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Balance Card */
+        .balance-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 24px 20px;
+            margin: 0 20px 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(139, 94, 60, 0.08);
+        }
+
+        .balance-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .balance-amount {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--brown-medium);
+            letter-spacing: -0.5px;
+            margin-bottom: 20px;
+            word-break: break-all;
+        }
+
+        .balance-amount.hidden {
+            filter: blur(8px);
+            user-select: none;
+        }
+
+        .eye-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+        }
+
+        .eye-btn svg {
+            width: 18px;
+            height: 18px;
+            stroke: var(--text-muted);
+        }
+
+        .account-info {
+            display: flex;
+            gap: 12px;
+        }
+
+        .account-box {
+            flex: 1;
+            background: var(--bg-input);
+            border-radius: 12px;
+            padding: 12px 14px;
+        }
+
+        .account-label {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .account-value {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .account-number {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: 0.5px;
+        }
+
+        .copy-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+        }
+
+        .copy-btn:hover { opacity: 1; }
+        .copy-btn svg {
+            width: 16px;
+            height: 16px;
+            stroke: var(--text-secondary);
+        }
+
+        /* Action Grid */
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            padding: 0 20px;
+            margin-bottom: 20px;
+        }
+
+        .action-btn {
+            background: var(--bg-card);
+            border: 1px solid rgba(139, 94, 60, 0.1);
+            border-radius: 16px;
+            padding: 16px 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .action-btn:active {
+            transform: scale(0.96);
+        }
+
+        .action-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .action-icon svg {
+            width: 22px;
+            height: 22px;
+            stroke: white;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .action-icon.brown-dark { background: linear-gradient(135deg, #6B4423, var(--brown-dark)); }
+        .action-icon.brown-medium { background: linear-gradient(135deg, var(--brown-light), var(--brown-medium)); }
+        .action-icon.brown-gold { background: linear-gradient(135deg, #C4956A, var(--brown-light)); }
+
+        .action-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* Recent Activity */
+        .activity-section {
+            background: var(--bg-card);
+            border-radius: 20px;
+            margin: 0 20px 20px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(139, 94, 60, 0.08);
+        }
+
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .activity-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .activity-count {
+            font-size: 13px;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            max-height: 320px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .activity-list::-webkit-scrollbar { width: 4px; }
+        .activity-list::-webkit-scrollbar-thumb {
+            background: var(--brown-light);
+            border-radius: 4px;
+        }
+
+        .transaction-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(139, 94, 60, 0.06);
+            cursor: pointer;
+            transition: background 0.2s;
+            border-radius: 8px;
+            padding-left: 8px;
+            padding-right: 8px;
+        }
+
+        .transaction-item:hover {
+            background: rgba(139, 94, 60, 0.04);
+        }
+
+        .transaction-item:last-child { border-bottom: none; }
+
+        .tx-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .tx-icon.incoming {
+            background: rgba(46, 125, 50, 0.1);
+        }
+
+        .tx-icon.outgoing {
+            background: rgba(198, 40, 40, 0.1);
+        }
+
+        .tx-icon svg {
+            width: 18px;
+            height: 18px;
+            stroke-width: 2.5;
+        }
+
+        .tx-icon.incoming svg { stroke: var(--green-positive); }
+        .tx-icon.outgoing svg { stroke: var(--red-negative); }
+
+        .tx-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .tx-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .tx-sub {
+            font-size: 12px;
+            color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-top: 2px;
+        }
+
+        .tx-amount {
+            font-size: 15px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .tx-amount.positive { color: var(--green-positive); }
+        .tx-amount.negative { color: var(--red-negative); }
+
+        /* Modals */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            display: none;
+            align-items: flex-end;
+            justify-content: center;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-sheet {
+            background: var(--bg-card);
+            border-radius: 24px 24px 0 0;
+            width: 100%;
+            max-width: 430px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;
+            position: relative;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 20px 0;
+            position: sticky;
+            top: 0;
+            background: var(--bg-card);
+            z-index: 10;
+            border-radius: 24px 24px 0 0;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1.5px solid var(--text-muted);
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            color: var(--text-secondary);
+            line-height: 1;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        /* Transaction Detail Modal */
+        .tx-detail-header {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .tx-detail-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: rgba(21, 101, 192, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+        }
+
+        .tx-detail-icon svg {
+            width: 28px;
+            height: 28px;
+            stroke: var(--blue-status);
+            stroke-width: 2.5;
+        }
+
+        .tx-detail-amount {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .tx-detail-amount.negative { color: var(--red-negative); }
+        .tx-detail-amount.positive { color: var(--green-positive); }
+
+        .tx-detail-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .tx-detail-sub {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .tx-detail-divider {
+            height: 1px;
+            background: rgba(139, 94, 60, 0.1);
+            margin: 16px 0;
+        }
+
+        .tx-detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+        }
+
+        .tx-detail-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .tx-detail-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .tx-detail-value.status {
+            color: var(--blue-status);
+        }
+
+        /* Transfer Form */
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1.5px solid rgba(139, 94, 60, 0.15);
+            border-radius: 12px;
+            background: var(--bg-input);
+            font-size: 15px;
+            font-family: inherit;
+            color: var(--text-primary);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus {
+            border-color: var(--brown-medium);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--brown-gradient-start), var(--brown-gradient-end));
+            color: white;
+            font-size: 15px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 16px rgba(139, 94, 60, 0.25);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(139, 94, 60, 0.3);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            width: 100%;
+            padding: 16px;
+            border: 1.5px solid rgba(139, 94, 60, 0.2);
+            border-radius: 14px;
+            background: transparent;
+            color: var(--text-primary);
+            font-size: 15px;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(139, 94, 60, 0.05);
+        }
+
+        /* Virtual Card */
+        .virtual-card-section {
+            padding: 0 20px;
+        }
+
+        .virtual-card-container {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .virtual-card-title {
+            font-size: 18px;
+            font-weight: 700;
+            text-align: left;
+            margin-bottom: 24px;
+        }
+
+        .card-activate-state {
+            padding: 20px 0;
+        }
+
+        .card-icon-large {
+            width: 64px;
+            height: 64px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, var(--brown-dark), var(--brown-medium));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+        .card-icon-large svg {
+            width: 28px;
+            height: 28px;
+            stroke: white;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .card-activate-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .card-activate-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 24px;
+            padding: 0 10px;
+        }
+
+        /* Credit Card Visual */
+        .credit-card {
+            width: 100%;
+            aspect-ratio: 1.586;
+            background: linear-gradient(135deg, #5C1A1B 0%, #3D0F10 50%, #2A0A0B 100%);
+            border-radius: 16px;
+            padding: 24px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 16px;
+            box-shadow: 0 8px 32px rgba(60, 10, 11, 0.4);
+            animation: cardReveal 0.6s ease;
+        }
+
+        @keyframes cardReveal {
+            from { opacity: 0; transform: scale(0.9) rotateY(-10deg); }
+            to { opacity: 1; transform: scale(1) rotateY(0); }
+        }
+
+        .credit-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+        }
+
+        .card-bank {
+            font-size: 10px;
+            letter-spacing: 2px;
+            opacity: 0.7;
+            margin-bottom: 2px;
+        }
+
+        .card-tier {
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 24px;
+        }
+
+        .card-chip {
+            width: 40px;
+            height: 30px;
+            background: linear-gradient(135deg, #D4AF37, #B8960C);
+            border-radius: 6px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-chip::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: rgba(0,0,0,0.2);
+        }
+
+        .card-chip::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: rgba(0,0,0,0.2);
+        }
+
+        .card-number {
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .card-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .card-holder-label, .card-expires-label {
+            font-size: 8px;
+            letter-spacing: 1px;
+            opacity: 0.6;
+            text-transform: uppercase;
+        }
+
+        .card-holder-name, .card-expires-value {
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .card-mastercard {
+            display: flex;
+            align-items: center;
+        }
+
+        .mc-circle {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+        }
+
+        .mc-red { background: #EB001B; margin-right: -10px; opacity: 0.9; }
+        .mc-orange { background: #F79E1B; }
+
+        .card-active-text {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .success-toast {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--bg-input);
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-top: 16px;
+        }
+
+        .success-toast svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--green-positive);
+            stroke-width: 2.5;
+        }
+
+        .success-toast span {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* Profile */
+        .profile-section {
+            padding: 0 20px;
+        }
+
+        .profile-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .profile-avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: var(--bg-input);
+            border: 2px solid rgba(139, 94, 60, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .profile-avatar svg {
+            width: 32px;
+            height: 32px;
+            stroke: var(--text-muted);
+            stroke-width: 1.5;
+        }
+
+        .avatar-camera {
+            position: absolute;
+            bottom: -2px;
+            right: -2px;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--brown-gradient-start), var(--brown-gradient-end));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--bg-card);
+        }
+
+        .avatar-camera svg {
+            width: 14px;
+            height: 14px;
+            stroke: white;
+            stroke-width: 2;
+        }
+
+        .profile-info h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .profile-info p {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .profile-info .hint {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .profile-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        /* Scrollbar hide for mobile feel */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Loading spinner */
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--text-primary);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 2000;
+            opacity: 0;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* Empty state for activity */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+        }
+
+        .empty-state svg {
+            width: 48px;
+            height: 48px;
+            stroke: var(--text-muted);
+            margin-bottom: 12px;
+            opacity: 0.5;
+        }
+
+        /* Info box for modals */
+        .info-box {
+            background: var(--bg-input);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
+        .info-box-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .info-box-text {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Crypto ticker */
+        .crypto-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .crypto-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            background: var(--bg-input);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+
+        .crypto-item:hover {
+            border-color: var(--brown-light);
+        }
+
+        .crypto-item.selected {
+            border-color: var(--brown-medium);
+            background: rgba(139, 94, 60, 0.08);
+        }
+
+        .crypto-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .crypto-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .crypto-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .crypto-price {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .crypto-change {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .crypto-change.up { color: var(--green-positive); }
+        .crypto-change.down { color: var(--red-negative); }
+
+        /* Bill pay list */
+        .bill-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .bill-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            background: var(--bg-input);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .bill-item:hover {
+            background: rgba(139, 94, 60, 0.1);
+        }
+
+        .bill-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--brown-light), var(--brown-medium));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bill-icon svg {
+            width: 20px;
+            height: 20px;
+            stroke: white;
+            stroke-width: 2;
+        }
+
+        .bill-info {
+            flex: 1;
+        }
+
+        .bill-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .bill-due {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .bill-amount {
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        /* Check preview */
+        .check-preview {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .check-preview::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: repeating-linear-gradient(90deg, #ccc 0px, #ccc 4px, transparent 4px, transparent 8px);
+        }
+
+        .check-field {
+            margin-bottom: 12px;
+        }
+
+        .check-field-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #999;
+            margin-bottom: 2px;
+        }
+
+        .check-field-value {
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Method selector */
+        .method-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .method-btn {
+            flex: 1;
+            padding: 12px;
+            border: 1.5px solid rgba(139, 94, 60, 0.15);
+            border-radius: 12px;
+            background: var(--bg-input);
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .method-btn.active {
+            border-color: var(--brown-medium);
+            background: rgba(139, 94, 60, 0.08);
+            color: var(--brown-dark);
+        }
+
+        /* Amount quick select */
+        .amount-presets {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .preset-btn {
+            padding: 10px;
+            border: 1.5px solid rgba(139, 94, 60, 0.15);
+            border-radius: 10px;
+            background: var(--bg-input);
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .preset-btn:hover {
+            border-color: var(--brown-medium);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo-area">
+                <div class="logo-icon"></div>
+                <span class="logo-text">NEVADA</span>
+            </div>
+            <button class="profile-btn" onclick="switchTab('profile')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Welcome -->
+        <div class="welcome-section">
+            <div class="welcome-row">
+                <div>
+                    <div class="welcome-text">Welcome back,</div>
+                    <div class="welcome-name">Alex Paul</div>
+                </div>
+                <div class="date-display">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                    <span id="currentDate">Friday, May 1, 2026</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tab-nav">
+            <button class="tab-btn active" data-tab="overview" onclick="switchTab('overview')">Overview</button>
+            <button class="tab-btn" data-tab="cards" onclick="switchTab('cards')">Cards</button>
+            <button class="tab-btn" data-tab="profile" onclick="switchTab('profile')">Profile</button>
+        </div>
+
+        <!-- Overview Tab -->
+        <div id="tab-overview" class="tab-content active">
+            <!-- Balance Card -->
+            <div class="balance-card">
+                <div class="balance-label">
+                    Total Balance
+                    <button class="eye-btn" onclick="toggleBalance()">
+                        <svg id="eyeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </button>
+                </div>
+                <div class="balance-amount" id="balanceAmount">$1, 001, 056.00</div>
+                <div class="account-info">
+                    <div class="account-box">
+                        <div class="account-label">Account No.</div>
+                        <div class="account-value">
+                            <span class="account-number">218047991698</span>
+                            <button class="copy-btn" onclick="copyToClipboard('5375765647')">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="account-box">
+                        <div class="account-label">Routing No.</div>
+                        <div class="account-value">
+                            <span class="account-number">101019644</span>
+                            <button class="copy-btn" onclick="copyToClipboard('74847864')">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Grid -->
+            <div class="action-grid">
+                <button class="action-btn" onclick="openDepositModal()">
+                    <div class="action-icon brown-dark">
+                        <svg viewBox="0 0 24 24"><path d="M12 19V5m0 0l-7 7m7-7l7 7"/></svg>
+                    </div>
+                    <span class="action-label">Deposit</span>
+                </button>
+                <button class="action-btn" onclick="openWithdrawModal()">
+                    <div class="action-icon brown-dark">
+                        <svg viewBox="0 0 24 24"><path d="M12 5v14m0 0l-7-7m7 7l7-7"/></svg>
+                    </div>
+                    <span class="action-label">Withdraw</span>
+                </button>
+                <button class="action-btn" onclick="openTransferModal()">
+                    <div class="action-icon brown-medium">
+                        <svg viewBox="0 0 24 24"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+                    </div>
+                    <span class="action-label">Transfer</span>
+                </button>
+                <button class="action-btn" onclick="switchTab('cards')">
+                    <div class="action-icon brown-gold">
+                        <svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                    </div>
+                    <span class="action-label">Cards</span>
+                </button>
+                <button class="action-btn" onclick="openCryptoModal()">
+                    <div class="action-icon brown-dark">
+                        <svg viewBox="0 0 24 24"><path d="M12 2v20M9 5h4.5a3.5 3.5 0 0 1 0 7H9v-7zm0 7h5a3.5 3.5 0 0 1 0 7H9v-7z"/></svg>
+                    </div>
+                    <span class="action-label">Buy Crypto</span>
+                </button>
+                <button class="action-btn" onclick="openWireModal()">
+                    <div class="action-icon brown-medium">
+                        <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                    </div>
+                    <span class="action-label">Wire Transfer</span>
+                </button>
+                <button class="action-btn" onclick="openBillsModal()">
+                    <div class="action-icon brown-dark">
+                        <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                    </div>
+                    <span class="action-label">Pay Bills</span>
+                </button>
+                <button class="action-btn" onclick="openLocalTransferModal()">
+                    <div class="action-icon brown-gold">
+                        <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2" ry="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+                    </div>
+                    <span class="action-label">Local Transfer</span>
+                </button>
+                <button class="action-btn" onclick="openCheckDepositModal()">
+                    <div class="action-icon brown-dark">
+                        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                    </div>
+                    <span class="action-label">Check Deposit</span>
+                </button>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="activity-section">
+                <div class="activity-header">
+                    <span class="activity-title">Recent Activity</span>
+                    <span class="activity-count" id="txCount">158 transactions</span>
+                </div>
+                <div class="activity-list" id="activityList">
+                    <!-- Transactions injected by JS -->
+                </div>
+            </div>
+            <div style="height: 30px;"></div>
+        </div>
+
+        <!-- Cards Tab -->
+        <div id="tab-cards" class="tab-content">
+            <div class="virtual-card-section">
+                <div class="virtual-card-container">
+                    <div class="virtual-card-title">Virtual Card</div>
+                    
+                    <div id="cardInactive">
+                        <div class="card-activate-state">
+                            <div class="card-icon-large">
+                                <svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                            </div>
+                            <div class="card-activate-title">Activate Your Virtual Card</div>
+                            <div class="card-activate-desc">Generate a secure Mastercard linked to your account for instant online purchases.</div>
+                            <button class="btn-primary" id="activateBtn" onclick="activateCard()">Activate Virtual Card</button>
+                        </div>
+                    </div>
+
+                    <div id="cardActive" style="display: none;">
+                        <div class="credit-card">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                <div>
+                                    <div class="card-bank">STANFORD FCU</div>
+                                    <div class="card-tier">PLATINUM</div>
+                                </div>
+                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5">
+                                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                                    <line x1="1" y1="10" x2="23" y2="10"/>
+                                </svg>
+                            </div>
+                            <div class="card-chip"></div>
+                            <div class="card-number">4146 6028 4830 9327</div>
+                            <div class="card-bottom">
+                                <div>
+                                    <div class="card-holder-label">Cardholder</div>
+                                    <div class="card-holder-name">ALEX PAUL</div>
+                                </div>
+                                <div style="display: flex; align-items: flex-end; gap: 12px;">
+                                    <div>
+                                        <div class="card-expires-label">Expires</div>
+                                        <div class="card-expires-value">06/32</div>
+                                    </div>
+                                    <div class="card-mastercard">
+                                        <div class="mc-circle mc-red"></div>
+                                        <div class="mc-circle mc-orange"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-active-text">Your virtual Mastercard is active. Use these details for secure online purchases.</div>
+                        <div class="success-toast">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                            <span>Virtual card activated</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="height: 30px;"></div>
+        </div>
+
+        <!-- Profile Tab -->
+        <div id="tab-profile" class="tab-content">
+            <div class="profile-section">
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <div class="profile-avatar">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            <div class="avatar-camera">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                                    <circle cx="12" cy="13" r="4"></circle>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="profile-info">
+                            <h3>Alex Paul</h3>
+                            <p>alexpaul@gmail.com</p>
+                            <div class="hint">Tap the camera to upload from your device</div>
+                        </div>
+                    </div>
+
+                    <div class="profile-form">
+                        <div class="form-group">
+                            <label class="form-label">Phone Number</label>
+                            <input type="tel" class="form-input" value="+1 929-315-9570" id="phoneInput">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Gender</label>
+                            <select class="form-input" id="genderInput">
+                                <option value="Male" selected>Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                                <option value="Prefer not to say">Prefer not to say</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Address</label>
+                            <input type="text" class="form-input" value="2543 S Via Privada Ln, Boise, ID 8371" id="addressInput">
+                        </div>
+                        <div class="btn-group">
+                            <button class="btn-primary" onclick="saveProfile()">Save Changes</button>
+                            <button class="btn-secondary" onclick="showToast('Customer service: 1-800-ALEX-PAUL')">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+                                    <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
+                                </svg>
+                                Contact Customer Service
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="height: 30px;"></div>
+        </div>
+    </div>
+
+    <!-- Transaction Detail Modal -->
+    <div class="modal-overlay" id="txDetailModal">
+        <div class="modal-sheet">
+            <div class="modal-header">
+                <span class="modal-title">Transaction Details</span>
+                <button class="modal-close" onclick="closeModal('txDetailModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="tx-detail-header">
+                    <div class="tx-detail-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                    </div>
+                    <div class="tx-detail-amount" id="detailAmount"></div>
+                    <div class="tx-detail-title" id="detailTitle"></div>
+                    <div class="tx-detail-sub" id="detailSub"></div>
+                </div>
+                <div class="tx-detail-divider"></div>
+                <div class="tx-detail-row">
+                    <span class="tx-detail-label">Status</span>
+                    <span class="tx-detail-value status">Completed</span>
+                </div>
+                <div class="tx-detail-row">
+                    <span class="tx-detail-label">Type</span>
+                    <span class="tx-detail-value" id="detailType"></span>
+                </div>
+                <div class="tx-detail-row">
+                    <span class="tx-detail-label">Category</span>
+                    <span class="tx-detail-value" id="detailCategory"></span>
+                </div>
+                <div class="tx-detail-row">
+                    <span class="tx-detail-label">Date & Time</span>
+                    <span class="tx-detail-value" id="detailDate"></span>
+                </div>
+                <div class="tx-detail-row">
+                    <span class="tx-detail-label">Transaction No.</span>
+                    <span class="tx-detail-value" id="detailTxNo"></span>
+                </div>
+                <div class="tx-detail-row">
+                    <span class="tx-detail-label">Reference No.</span>
+                    <span class="tx-detail-value" id="detailRefNo"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Deposit Modal -->
+    <div class="modal-overlay" id="depositModal">
+        <div class="modal-sheet">
+            <div class="modal-header">
+                <span class="modal-title">Deposit Funds</span>
+                <button class="modal-close" onclick="closeModal('depositModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="info-box">
+                    <div class="info-box-title">Account Balance</div>
+                    <div class="info-box-text" style="font-size: 20px; font-weight: 700; color: var(--brown-medium);">$1, 001, 056.00</div>
+                </div>
+                <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">Choose a deposit method to add funds to your account.</p>
+                
+                <div class="method-selector">
+                    <button class="method-btn active" onclick="selectMethod(this, 'bank')">Bank</button>
+                    <button class="method-btn" onclick="selectMethod(this, 'card')">Card</button>
+                    <button class="method-btn" onclick="selectMethod(this, 'crypto')">Crypto</button>
+                </div>
+
+                <form onsubmit="submitDeposit(event)">
+                    <div class="form-group">
+                        <label class="form-label">Amount</label>
+                        <div class="amount-presets">
+                            <button type="button" class="preset-btn" onclick="setAmount('depositAmount', 1000)">$1K</button>
+                            <button type="button" class="preset-btn" onclick="setAmount('depositAmount', 5000)">$5K</button>
+                            <button type="button" class="preset-btn" onclick="setAmount('depositAmount', 10000)">$10K</button>
+                            <button type="button" class="preset-btn" onclick="setAmount('depositAmount', 50000)">$50K</button>
+                        </div>
+                        <input type="number" class="form-input" placeholder="0.00" step="0.01" required id="depositAmount">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">From Account</label>
+                        <input type="text" class="form-input" placeholder="Bank account number" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Bank Name</label>
+                        <input type="text" class="form-input" placeholder="Your bank name" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Routing Number</label>
+                        <input type="text" class="form-input" placeholder="Routing number" required>
+                    </div>
+                    <button type="submit" class="btn-primary" id="depositSubmitBtn">Confirm Deposit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Withdraw Modal -->
+    <div class="modal-overlay" id="withdrawModal">
+        <div class="modal-sheet">
+            <div class="modal-header">
+                <span class="modal-title">Withdraw Funds</span>
+                <button class="modal-close" onclick="closeModal('withdrawModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="info-box">
+                    <div class="info-box-title">Available Balance</div>
+                    <div class="info-box-text" style="font-size: 20px; font-weight: 700; color: var(--brown-medium);">$1, 001, 056.00</div>
+                </div>
+                <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">Transfer funds to your linked external account.</p>
+                
+                <form onsubmit="submitWithdraw(event)">
+                    <div class="form-group">
+                        <label class="form-label">Amount</label>
+                        <div class="amount-presets">
+                            <button type="button" class="preset-btn" onclick="setAmount('withdrawAmount', 1000)">$1K</button>
+                            <button type="button" class="preset-btn" onclick="setAmount('withdrawAmount', 5000)">$5K</button>
+                            <button type="button" class="preset-btn" onclick="setAmount('withdrawAmount', 10000)">$10K</button>
+                            <button type="button" class="preset-btn" onclick="setAmount('withdrawAmount', 50000)">$50K</button>
+                        </div>
+                        <input type="number" class="form-input" placeholder="0.00" step="0.01" required id="withdrawAmount">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">To Account</label>
+                        <input type="text" class="form-input" placeholder="Destination account number" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Account Holder Name</label>
+                        <input type="text" class="form-input" placeholder="Full name on account" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Bank</label>
+                            <input type="text" class="form-input" placeholder="Bank name" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">PIN</label>
+                            <input type="password" class="form-input" placeholder="****" maxlength="4" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary" id="withdrawSubmitBtn">Withdraw Funds</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Transfer Modal -->
+    <div class="modal-overlay" id="transferModal">
+        <div class="modal-sheet">
+            <div class="modal-header">
+                <span class="modal-title">Transfer Funds</span>
+                <button class="modal-close" onclick="closeModal('transferModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">Transfer funds securely between accounts.</p>
+                <form onsubmit="submitTransfer(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">From</label>
+                            <input type="text" class="form-input" placeholder="Your account / source" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Enter Amount</label>
+                            <input type="number" class="form-input" placeholder="0.00" step="0.01" required id="transferAmount">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Beneficiary Name</label>
+                        <input type="text" class="form-input" placeholder="Full name" required id="beneficiaryName">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">IBAN / Account Number</label>
+                        <input type="text" class="form-input" placeholder="Account number" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Bank</label>
+                            <input type="text" class="form-input" placeholder="Bank name" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">PIN</label>
+                            <input type="password" class="form-input" placeholder="****" maxlength="4" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Bank Address (Optional)</label>
+                        <input type="text" class="form-input" placeholder="Bank address">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Remarks</label>
+                        <input type="text" class="form-input" placeholder="Optional note">
+                    </div>
+                    <button type="submit" class="btn-primary" id="transferSubmitBtn">Send Transfer</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Buy Crypto Modal -->
+    <div class="modal-overlay" id="cryptoModal">
+        <div class="modal-sheet">
+            <div class="modal-header">
+                <span class="modal-title">Buy Cryptocurrency</span>
+                <button class="modal-close" onclick="closeModal('cryptoModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="info-box">
+                    <div class="info-box-title">Available Balance</div>
+                    <div class="info-box-text" style="font-size: 20px; font-weight: 700; color: var(--brown-medium);">$4,000,587,354.80</div>
+                </div>
+                <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">Select a cryptocurrency to purchase.</p>
+                
+                <div class="crypto-list" id="cryptoList">
+                    <div class="crypto-item" onclick="selectCrypto(this, 'Bitcoin', 67432.50)">
+                        <div class="crypto-info">
+                            <div class="crypto-icon" style="background: #F7931A; color: white;">₿</div>
+                            <div>
+                                <div class="crypto-name">Bitcoin</div>
+                                <div class="crypto-price">$67,432.50</div>
+                            </div>
+                        </div>
+                        <div class="crypto-change up">+2.4%</div>
+                    </div>
+                    <div class="crypto-item" onclick="selectCrypto(this, 'Ethereum', 3521.80)">
+                        <div class="crypto-info">
+                            <div class="crypto-icon" style="background: #627EEA; color: white;">Ξ</div>
+                            <div>
+                                <div class="crypto-name">Ethereum</div>
+                                <div class="crypto-price">$3,521.80</div>
+                            </div>
+                        </div>
+                        <div class="crypto-change up">+1.8%</div>
+                    </div>
+                    <div class="crypto-item" onclick="selectCrypto(this, 'Solana', 142.30)">
+                        <div class="crypto-info">
+                            <div class="crypto-icon" style="background: #00FFA3; color: #141414;">S</div>
+                            <div>
+                                <div class="crypto-name">Solana</div>
+                                <div class="crypto-price">$142.30</div>
+                            </div>
+                        </div>
+                        <div class="crypto-change down">-0.5%</div>
+                    </div>
+                    <div class="crypto-item" onclick="selectCrypto(this, 'USDC', 1.00)">
+                        <div class="crypto-info">
+                            <div class="crypto-icon" style="background: #2775CA; color: white;">$</div>
+                            <div>
+                                <div class="crypto-name">USDC</div>
+                                <div class="crypto-price">$1.00</div>
+                            </div>
+                        </div>
+                        <div class="crypto-change up">0.0%</div>
+                    </div>
+                </div>
+
+                <form onsubmit="submitCrypto(event)">
+                    <div class="form-group">
+                        <label class="form-label">Amount (USD)</label>
+                        <div class="amount-presets">
+                            <button type="button" class="preset-btn" onclick="setAmount('cryptoAmount', 1000)">$1K</button>
+                            <button type="button" class="preset-btn" onclick="setAmount('cryptoAmount', 5000)">$5K</button>
+                            <button type="button" class="preset-btn" onclick="setAmount('cryptoAmount', 10000)">$10K</button>
+                            <button type="button" class="preset-btn" onclick="setAmount('cryptoAmount', 50000)">$50K</button>
+                        </div>
+                        <input type="number" class="form-input" placeholder="0.00" step="0.01" required id="cryptoAmount">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">PIN</label>
+                        <input type="password" class="form-input" placeholder="****" maxlength="4" required>
+                    </div>
+                    <button type="submit" class="btn-primary" id="cryptoSubmitBtn">Buy Crypto</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wire Transfer Modal -->
+    <div class="modal-overlay" id="wireModal">
+        <div class="modal-sheet">
+            <div class="modal-header">
+                <span class="modal-title">Wire Transfer</span>
+                <button class="modal-close" onclick="closeModal('wireModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="info-box">
+                    <div class="info-box-title">Wire Transfer Details</div>
+                    <div class="info-box-text">International wire transfers typically complete within 1-3 business days. Fees may apply.</div>
+                </div>
+                <form onsubmit="submitWire(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Amount</label>
+                            <input type="number" class="form-input" placeholder="0.00" step="0.01" required id="wireAmount">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Currency</label>
+                            <select class="form-input">
+                                <option value="USD" selected>USD</option>
+                                <option value="EUR">EUR</option>
+                                <option value="GBP">GBP</option>
+                                <option value="CHF">CHF</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Beneficiary Name</label>
+                        <input type="text" class="form-input" placeholder="Full legal name" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Beneficiary Address</label>
+                        <input type="text" class="form-input" placeholder="Street address" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">IBAN / Account</label>
+                            <input type="text" class="form-input" placeholder="IBAN or account number" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">SWIFT / BIC</label>
+                            <input type="text" class="form-input" placeholder="SWIFT code" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Bank Name</label>
+                        <input type="text" class="form-input" placeholder="Receiving bank name" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Bank Address</label>
+                        <input type="text" class="form-input" placeholder="Bank street address" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Purpose of Payment</label>
+                        <input type="text" class="form-input" placeholder="e.g. Investment, Property purchase" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">PIN</label>
+                        <input type="password" class="form-input" placeholder="****" maxlength="4" required>
+                    </div>
+                    <button type="submit" class="btn-primary" id="wireSubmitBtn">Send Wire Transfer</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pay Bills Modal -->
+    <div class="modal-overlay" id="billsModal">
+        <div class="modal-sheet">
+            <div class="modal-header">
+                <span class="modal-title">Pay Bills</span>
+                <button class="modal-close" onclick="closeModal('billsModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">Select a biller to make a payment.</p>
+                
+                <div class="bill-list">
+                    <div class="bill-item" onclick="selectBill(this, 'Pacific Gas & Electric', 284.50)">
+                        <div class="bill-icon">
+                                                        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+                            </svg>
+                        </div>
+                        <div class="bill-info">
+                            <div class="bill-name">Pacific Gas & Electric</div>
+                            <div class="bill-due">Due May 15, 2026</div>
+                        </div>
+                        <div class="bill-amount">$284.50</div>
+                    </div>
+                    <div class="bill-item" onclick="selectBill(this, 'AT&T Wireless', 89.99)">
+                        <div class="bill-icon" style="background: linear-gradient(135deg, #00A8E0, #0077B6);">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                            </svg>
+                        </div>
+                        <div class="bill-info">
+                            <div class="bill-name">AT&T Wireless</div>
+                            <div class="bill-due">Due May 18, 2026</div>
+                        </div>
+                        <div class="bill-amount">$89.99</div>
+                    </div>
+                    <div class="bill-item" onclick="selectBill(this, 'State Farm Insurance', 342.00)">
+                        <div class="bill-icon" style="background: linear-gradient(135deg, #E31837, #B71525);">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            </svg>
+                        </div>
+                        <div class="bill-info">
+                            <div class="bill-name">State Farm Insurance</div>
+                            <div class="bill-due">Due May 20, 2026</div>
+                        </div>
+                        <div class="bill-amount">$342.00</div>
+                    </div>
+                    <div class="bill-item" onclick="selectBill(this, 'Netflix Subscription', 15.49)">
+                        <div class="bill-icon" style="background: linear-gradient(135deg, #E50914, #B20710);">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
+                                <line x1="7" y1="2" x2="7" y2="22"></line>
+                                <line x1="17" y1="2" x2="17" y2="22"></line>
+                                <line x1="2" y1="12" x2="22" y2="12"></line>
+                                <line x1="2" y1="7" x2="7" y2="7"></line>
+                                <line x1="2" y1="17" x2="7" y2="17"></line>
+                                <line x1="17" y1="17" x2="22" y2="17"></line>
+                                <line x1="17" y1="7" x2="22" y2="7"></line>
+                            </svg>
+                        </div>
+                        <div class="bill-info">
+                            <div class="bill-name">Netflix Subscription</div>
+                            <div class="bill-due">Due May 22, 2026</div>
+                        </div>
+                        <div class="bill-amount">$15.49</div>
+                    </div>
+                </div>
+
+                <form onsubmit="submitBill(event)">
+                    <div class="form-group">
+                        <label class="form-label">Payment Amount</label>
+                        <input type="number" class="form-input" placeholder="0.00" step="0.01" required id="billAmount">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Account Number</label>
+                        <input type="text" class="form-input" placeholder="Biller account number" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">PIN</label>
+                        <input type="password" class="form-input" placeholder="****" maxlength="4" required>
+                    </div>
+                    <button type="submit" class="btn-primary" id="billSubmitBtn">Pay Bill</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Local Transfer Modal -->
+    <div class="modal-overlay" id="localTransferModal">
+        <div class="modal-sheet">
+            <div class="modal-header">
+                <span class="modal-title">Local Transfer</span>
+                <button class="modal-close" onclick="closeModal('localTransferModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="info-box">
+                    <div class="info-box-title">Instant Local Transfers</div>
+                    <div class="info-box-text">Send money instantly to local bank accounts within the US. No fees for transfers under $10,000.</div>
+                </div>
+                <form onsubmit="submitLocalTransfer(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Amount</label>
+                            <input type="number" class="form-input" placeholder="0.00" step="0.01" required id="localAmount">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Transfer Type</label>
+                            <select class="form-input">
+                                <option value="instant" selected>Instant</option>
+                                <option value="same_day">Same Day</option>
+                                <option value="standard">Standard (1-2 days)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Recipient Name</label>
+                        <input type="text" class="form-input" placeholder="Full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Account Number</label>
+                        <input type="text" class="form-input" placeholder="Account number" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Bank</label>
+                            <input type="text" class="form-input" placeholder="Bank name" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Routing Number</label>
+                            <input type="text" class="form-input" placeholder="Routing" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Memo (Optional)</label>
+                        <input type="text" class="form-input" placeholder="Payment note">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">PIN</label>
+                        <input type="password" class="form-input" placeholder="****" maxlength="4" required>
+                    </div>
+                    <button type="submit" class="btn-primary" id="localSubmitBtn">Send Local Transfer</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Check Deposit Modal -->
+    <div class="modal-overlay" id="checkDepositModal">
+        <div class="modal-sheet">
+            <div class="modal-header">
+                <span class="modal-title">Mobile Check Deposit</span>
+                <button class="modal-close" onclick="closeModal('checkDepositModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="info-box">
+                    <div class="info-box-title">Deposit Limits</div>
+                    <div class="info-box-text">Daily limit: $50,000 | Monthly limit: $250,000. Funds typically available within 1 business day.</div>
+                </div>
+                
+                <div style="text-align: center; padding: 20px 0;">
+                    <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, var(--brown-light), var(--brown-medium)); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                            <circle cx="12" cy="13" r="4"></circle>
+                        </svg>
+                    </div>
+                    <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 8px;">Take a photo of the front and back of your check</p>
+                    <button class="btn-secondary" onclick="showToast('Camera access requested')" style="margin-bottom: 20px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                            <circle cx="12" cy="13" r="4"></circle>
+                        </svg>
+                        Capture Check
+                    </button>
+                </div>
+
+                <div class="check-preview">
+                    <div class="check-field">
+                        <div class="check-field-label">Pay to the order of</div>
+                        <div class="check-field-value">Alex Paul</div>
+                    </div>
+                    <div class="check-field" style="display: flex; justify-content: space-between;">
+                        <div>
+                            <div class="check-field-label">Date</div>
+                            <div class="check-field-value" id="checkDate">05/01/2026</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div class="check-field-label">Amount</div>
+                            <div class="check-field-value" id="checkPreviewAmount">$0.00</div>
+                        </div>
+                    </div>
+                </div>
+
+                <form onsubmit="submitCheckDeposit(event)">
+                    <div class="form-group">
+                        <label class="form-label">Check Amount</label>
+                        <input type="number" class="form-input" placeholder="0.00" step="0.01" required id="checkAmount" oninput="updateCheckPreview(this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Check Number</label>
+                        <input type="text" class="form-input" placeholder="Check number" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Memo (Optional)</label>
+                        <input type="text" class="form-input" placeholder="e.g. Invoice #1234">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">PIN</label>
+                        <input type="password" class="form-input" placeholder="****" maxlength="4" required>
+                    </div>
+                    <button type="submit" class="btn-primary" id="checkSubmitBtn">Deposit Check</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // State
+        let balanceVisible = true;
+        let cardActivated = false;
+        let selectedCrypto = null;
+        let selectedCryptoPrice = 0;
+        let selectedBillAmount = 0;
+        let transactions = [
+            { id: 1, name: 'Investment - Vanguard', sub: 'Vanguard Holdings Inc.', amount: 245000, type: 'incoming', category: 'Investment', date: 'Apr 28, 2026 at 10:15 AM' },
+            { id: 2, name: 'Property Management', sub: 'Greystone Real Estate', amount: -184500, type: 'outgoing', category: 'Real Estate', date: 'Apr 27, 2026 at 3:42 PM' },
+            { id: 3, name: 'Global Logistics', sub: 'Maersk International', amount: -67320.45, type: 'outgoing', category: 'Shipping', date: 'Apr 26, 2026 at 9:20 AM' },
+            { id: 4, name: 'Wire Transfer', sub: 'JPMorgan Chase Bank', amount: 125000, type: 'incoming', category: 'Wire Transfer', date: 'Apr 25, 2026 at 2:08 PM' },
+            { id: 5, name: 'Equity Acquisition', sub: 'Sequoia Capital LP', amount: -82000, type: 'outgoing', category: 'Investment', date: 'Apr 25, 2026 at 9:27 AM' },
+            { id: 6, name: 'Treasury Bills', sub: 'US Treasury - T-Bill', amount: 318742.10, type: 'incoming', category: 'Government', date: 'Apr 24, 2026 at 11:30 AM' },
+        ];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            updateDate();
+            renderTransactions();
+        });
+
+        function updateDate() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', options);
+            document.getElementById('checkDate').textContent = now.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' });
+        }
+
+        // Tab Switching
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+        }
+
+        // Balance Toggle
+        function toggleBalance() {
+            balanceVisible = !balanceVisible;
+            const amountEl = document.getElementById('balanceAmount');
+            const eyeIcon = document.getElementById('eyeIcon');
+            
+            if (balanceVisible) {
+                amountEl.textContent = '$4,000,587,354.80';
+                amountEl.classList.remove('hidden');
+                eyeIcon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>';
+            } else {
+                amountEl.textContent = '$••••••••••••';
+                amountEl.classList.add('hidden');
+                eyeIcon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>';
+            }
+        }
+
+        // Copy to Clipboard
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Copied to clipboard');
+            }).catch(() => {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showToast('Copied to clipboard');
+            });
+        }
+
+        // Render Transactions
+        function renderTransactions() {
+            const list = document.getElementById('activityList');
+            const count = document.getElementById('txCount');
+            
+            count.textContent = `${transactions.length} transactions`;
+            
+            if (transactions.length === 0) {
+                list.innerHTML = `
+                    <div class="empty-state">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+                        <p>No transactions yet</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            list.innerHTML = transactions.map(tx => `
+                <div class="transaction-item" onclick="openTxDetail(${tx.id})">
+                    <div class="tx-icon ${tx.type}">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            ${tx.type === 'incoming' 
+                                ? '<path d="M12 19V5m0 0l-7 7m7-7l7 7"/>' 
+                                : '<path d="M12 5v14m0 0l-7-7m7 7l7-7"/>'}
+                        </svg>
+                    </div>
+                    <div class="tx-info">
+                        <div class="tx-name">${tx.name}</div>
+                        <div class="tx-sub">${tx.sub}</div>
+                    </div>
+                    <div class="tx-amount ${tx.type === 'incoming' ? 'positive' : 'negative'}">
+                        ${tx.type === 'incoming' ? '+' : ''}${formatMoney(tx.amount)}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function formatMoney(amount) {
+            return '$' + Math.abs(amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        // Transaction Detail Modal
+        function openTxDetail(id) {
+            const tx = transactions.find(t => t.id === id);
+            if (!tx) return;
+            
+            const isNeg = tx.type === 'outgoing';
+            document.getElementById('detailAmount').textContent = (isNeg ? '-' : '+') + formatMoney(tx.amount);
+            document.getElementById('detailAmount').className = 'tx-detail-amount ' + (isNeg ? 'negative' : 'positive');
+            document.getElementById('detailTitle').textContent = tx.name;
+            document.getElementById('detailSub').textContent = tx.sub;
+            document.getElementById('detailType').textContent = isNeg ? 'Debit' : 'Credit';
+            document.getElementById('detailCategory').textContent = tx.category;
+            document.getElementById('detailDate').textContent = tx.date;
+            document.getElementById('detailTxNo').textContent = 'SFCU' + Math.random().toString(36).substr(2, 12).toUpperCase();
+            document.getElementById('detailRefNo').textContent = 'REF-' + Math.random().toString(36).substr(2, 10).toUpperCase();
+            
+            document.getElementById('txDetailModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Modal Open/Close
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Close modal on overlay click
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    overlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
+
+        // Deposit
+        function openDepositModal() {
+            openModal('depositModal');
+        }
+
+        function selectMethod(btn, method) {
+            document.querySelectorAll('.method-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        function setAmount(inputId, amount) {
+            document.getElementById(inputId).value = amount;
+        }
+
+        function submitDeposit(e) {
+            e.preventDefault();
+            const btn = document.getElementById('depositSubmitBtn');
+            const amount = parseFloat(document.getElementById('depositAmount').value);
+            
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Processing...';
+            
+            setTimeout(() => {
+                const newTx = {
+                    id: Date.now(),
+                    name: 'Deposit - Bank Transfer',
+                    sub: 'External Bank Account',
+                    amount: Math.abs(amount),
+                    type: 'incoming',
+                    category: 'Deposit',
+                    date: new Date().toLocaleString('en-US', { 
+                        month: 'short', day: 'numeric', year: 'numeric', 
+                        hour: 'numeric', minute: '2-digit' 
+                    }).replace(',', ' at')
+                };
+                transactions.unshift(newTx);
+                renderTransactions();
+                
+                closeModal('depositModal');
+                btn.disabled = false;
+                btn.textContent = 'Confirm Deposit';
+                e.target.reset();
+                
+                showToast('Deposit initiated successfully');
+                switchTab('overview');
+            }, 1500);
+        }
+
+        // Withdraw
+        function openWithdrawModal() {
+            openModal('withdrawModal');
+        }
+
+        function submitWithdraw(e) {
+            e.preventDefault();
+            const btn = document.getElementById('withdrawSubmitBtn');
+            const amount = parseFloat(document.getElementById('withdrawAmount').value);
+            
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Processing...';
+            
+            setTimeout(() => {
+                const newTx = {
+                    id: Date.now(),
+                    name: 'Withdrawal - External Account',
+                    sub: 'Bank Transfer Out',
+                    amount: -Math.abs(amount),
+                    type: 'outgoing',
+                    category: 'Withdrawal',
+                    date: new Date().toLocaleString('en-US', { 
+                        month: 'short', day: 'numeric', year: 'numeric', 
+                        hour: 'numeric', minute: '2-digit' 
+                    }).replace(',', ' at')
+                };
+                transactions.unshift(newTx);
+                renderTransactions();
+                
+                closeModal('withdrawModal');
+                btn.disabled = false;
+                btn.textContent = 'Withdraw Funds';
+                e.target.reset();
+                
+                showToast('Withdrawal processed successfully');
+                switchTab('overview');
+            }, 1500);
+        }
+
+        // Transfer
+        function openTransferModal() {
+            openModal('transferModal');
+        }
+
+        function submitTransfer(e) {
+            e.preventDefault();
+            const btn = document.getElementById('transferSubmitBtn');
+            const amount = parseFloat(document.getElementById('transferAmount').value);
+            const beneficiary = document.getElementById('beneficiaryName').value;
+            
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Processing...';
+            
+            setTimeout(() => {
+                const newTx = {
+                    id: Date.now(),
+                    name: 'Transfer to ' + beneficiary,
+                    sub: 'Wire Transfer - External',
+                    amount: -Math.abs(amount),
+                    type: 'outgoing',
+                    category: 'Transfer',
+                    date: new Date().toLocaleString('en-US', { 
+                        month: 'short', day: 'numeric', year: 'numeric', 
+                        hour: 'numeric', minute: '2-digit' 
+                    }).replace(',', ' at')
+                };
+                transactions.unshift(newTx);
+                renderTransactions();
+                
+                closeModal('transferModal');
+                btn.disabled = false;
+                btn.textContent = 'Send Transfer';
+                e.target.reset();
+                
+                showToast('Transfer completed successfully');
+                switchTab('overview');
+            }, 1500);
+        }
+
+        // Crypto
+        function openCryptoModal() {
+            openModal('cryptoModal');
+        }
+
+        function selectCrypto(el, name, price) {
+            document.querySelectorAll('.crypto-item').forEach(item => item.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedCrypto = name;
+            selectedCryptoPrice = price;
+        }
+
+        function submitCrypto(e) {
+            e.preventDefault();
+            const btn = document.getElementById('cryptoSubmitBtn');
+            const amount = parseFloat(document.getElementById('cryptoAmount').value);
+            
+            if (!selectedCrypto) {
+                showToast('Please select a cryptocurrency');
+                return;
+            }
+            
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Processing...';
+            
+            setTimeout(() => {
+                const cryptoAmount = (amount / selectedCryptoPrice).toFixed(6);
+                const newTx = {
+                    id: Date.now(),
+                    name: 'Buy ' + selectedCrypto,
+                    sub: cryptoAmount + ' ' + selectedCrypto,
+                    amount: -Math.abs(amount),
+                    type: 'outgoing',
+                    category: 'Crypto',
+                    date: new Date().toLocaleString('en-US', { 
+                        month: 'short', day: 'numeric', year: 'numeric', 
+                        hour: 'numeric', minute: '2-digit' 
+                    }).replace(',', ' at')
+                };
+                transactions.unshift(newTx);
+                renderTransactions();
+                
+                closeModal('cryptoModal');
+                btn.disabled = false;
+                btn.textContent = 'Buy Crypto';
+                e.target.reset();
+                document.querySelectorAll('.crypto-item').forEach(item => item.classList.remove('selected'));
+                selectedCrypto = null;
+                
+                showToast('Crypto purchase completed');
+                switchTab('overview');
+            }, 1500);
+        }
+
+        // Wire Transfer
+        function openWireModal() {
+            openModal('wireModal');
+        }
+
+        function submitWire(e) {
+            e.preventDefault();
+            const btn = document.getElementById('wireSubmitBtn');
+            const amount = parseFloat(document.getElementById('wireAmount').value);
+            
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Processing...';
+            
+            setTimeout(() => {
+                const newTx = {
+                    id: Date.now(),
+                    name: 'International Wire Transfer',
+                    sub: 'SWIFT Transfer',
+                    amount: -Math.abs(amount),
+                    type: 'outgoing',
+                    category: 'Wire Transfer',
+                    date: new Date().toLocaleString('en-US', { 
+                        month: 'short', day: 'numeric', year: 'numeric', 
+                        hour: 'numeric', minute: '2-digit' 
+                    }).replace(',', ' at')
+                };
+                transactions.unshift(newTx);
+                renderTransactions();
+                
+                closeModal('wireModal');
+                btn.disabled = false;
+                btn.textContent = 'Send Wire Transfer';
+                e.target.reset();
+                
+                showToast('Wire transfer submitted');
+                switchTab('overview');
+            }, 1500);
+        }
+
+        // Pay Bills
+        function openBillsModal() {
+            openModal('billsModal');
+        }
+
+        function selectBill(el, name, amount) {
+            document.querySelectorAll('.bill-item').forEach(item => item.style.background = '');
+            el.style.background = 'rgba(139, 94, 60, 0.1)';
+            document.getElementById('billAmount').value = amount;
+            selectedBillAmount = amount;
+        }
+
+        function submitBill(e) {
+            e.preventDefault();
+            const btn = document.getElementById('billSubmitBtn');
+            const amount = parseFloat(document.getElementById('billAmount').value);
+            
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Processing...';
+            
+            setTimeout(() => {
+                const newTx = {
+                    id: Date.now(),
+                    name: 'Bill Payment',
+                    sub: 'Utility Payment',
+                    amount: -Math.abs(amount),
+                    type: 'outgoing',
+                    category: 'Bills',
+                    date: new Date().toLocaleString('en-US', { 
+                        month: 'short', day: 'numeric', year: 'numeric', 
+                        hour: 'numeric', minute: '2-digit' 
+                    }).replace(',', ' at')
+                };
+                transactions.unshift(newTx);
+                renderTransactions();
+                
+                closeModal('billsModal');
+                btn.disabled = false;
+                btn.textContent = 'Pay Bill';
+                e.target.reset();
+                document.querySelectorAll('.bill-item').forEach(item => item.style.background = '');
+                
+                showToast('Bill payment successful');
+                switchTab('overview');
+            }, 1500);
+        }
+
+        // Local Transfer
+        function openLocalTransferModal() {
+            openModal('localTransferModal');
+        }
+
+        function submitLocalTransfer(e) {
+            e.preventDefault();
+            const btn = document.getElementById('localSubmitBtn');
+            const amount = parseFloat(document.getElementById('localAmount').value);
+            
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Processing...';
+            
+            setTimeout(() => {
+                const newTx = {
+                    id: Date.now(),
+                    name: 'Local Bank Transfer',
+                    sub: 'ACH Transfer',
+                    amount: -Math.abs(amount),
+                    type: 'outgoing',
+                    category: 'Local Transfer',
+                    date: new Date().toLocaleString('en-US', { 
+                        month: 'short', day: 'numeric', year: 'numeric', 
+                        hour: 'numeric', minute: '2-digit' 
+                    }).replace(',', ' at')
+                };
+                transactions.unshift(newTx);
+                renderTransactions();
+                
+                closeModal('localTransferModal');
+                btn.disabled = false;
+                btn.textContent = 'Send Local Transfer';
+                e.target.reset();
+                
+                showToast('Local transfer sent');
+                switchTab('overview');
+            }, 1500);
+        }
+
+        // Check Deposit
+        function openCheckDepositModal() {
+            openModal('checkDepositModal');
+        }
+
+        function updateCheckPreview(value) {
+            const amount = parseFloat(value) || 0;
+            document.getElementById('checkPreviewAmount').textContent = '$' + amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        function submitCheckDeposit(e) {
+            e.preventDefault();
+            const btn = document.getElementById('checkSubmitBtn');
+            const amount = parseFloat(document.getElementById('checkAmount').value);
+            
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Processing...';
+            
+            setTimeout(() => {
+                const newTx = {
+                    id: Date.now(),
+                    name: 'Mobile Check Deposit',
+                    sub: 'Check #****',
+                    amount: Math.abs(amount),
+                    type: 'incoming',
+                    category: 'Check Deposit',
+                    date: new Date().toLocaleString('en-US', { 
+                        month: 'short', day: 'numeric', year: 'numeric', 
+                        hour: 'numeric', minute: '2-digit' 
+                    }).replace(',', ' at')
+                };
+                transactions.unshift(newTx);
+                renderTransactions();
+                
+                closeModal('checkDepositModal');
+                btn.disabled = false;
+                btn.textContent = 'Deposit Check';
+                e.target.reset();
+                document.getElementById('checkPreviewAmount').textContent = '$0.00';
+                
+                showToast('Check deposit submitted for review');
+                switchTab('overview');
+            }, 1500);
+        }
+
+        // Activate Card
+        function activateCard() {
+            const btn = document.getElementById('activateBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Activating...';
+            
+            setTimeout(() => {
+                document.getElementById('cardInactive').style.display = 'none';
+                document.getElementById('cardActive').style.display = 'block';
+                cardActivated = true;
+                showToast('Virtual card activated successfully');
+            }, 2000);
+        }
+
+        // Save Profile
+        function saveProfile() {
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Saving...';
+            
+            setTimeout(() => {
+                btn.disabled = false;
+                btn.textContent = originalText;
+                showToast('Profile saved successfully');
+            }, 1000);
+        }
+
+        // Toast
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+    </script>
+</body>
+</html>
